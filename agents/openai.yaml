@@ -1,4 +1,4 @@
 interface:
   display_name: "短镜头导演"
-  short_description: "自带图片或生成候选供挑选，只交付必要镜头图片与完整视频提示词"
-  default_prompt: "使用 $short-shot-director，使用我带来的图片，或根据风格提示词生成候选供我选择，再按目标视频模型整理素材包。"
+  short_description: "自带图或生成候选，汇总一份含镜头名称、建议秒数、图片和提示词的文档"
+  default_prompt: "使用 $short-shot-director，将我选定的图片与镜头整理为一份 Markdown，每个镜头依次写名称、建议秒数、视角图片和完整视频提示词。"

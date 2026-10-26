@@ -1,14 +1,14 @@
 # short-shot-director · 短镜头导演
 
-支持直接带图，也支持把视频风格／照片提示词转成可供选择的图片，再整理给视频生成 AI 的素材包。先询问 n 组候选、每组 m 个视角，分别选择图片模型与视频模型；生成并展示图片，等你选定后，创建只含必要镜头图片与提示词的精简文件夹与 ZIP。也支持一句想法、已有图片、视频参考或 Visora 的 `design-spec.md`。
+支持直接带图，也支持把视频风格／照片提示词转成可供选择的图片，再整理给视频生成 AI 的素材包。先询问 n 组候选、每组 m 个视角，分别选择图片模型与视频模型；生成并展示图片，等你选定后，创建一份按镜头命名、包含建议秒数、视角图片与完整提示词的 Markdown。也支持一句想法、已有图片、视频参考或 Visora 的 `design-spec.md`。
 
 适用于巨构、梦核、东方幻想、自然景观、人物氛围、产品展示和单人表演。通常是几秒的连续镜头，时长按用户需求与生成工具决定。不承担完整短剧、多场景剧情、多人物连续性系统、复杂剪辑工程或默认三维建模。
 
 ## 下载与安装
 
 - [GitHub 源码](https://github.com/CATO2DL/short-shot-director)
-- [v1.3.0 安装包](https://github.com/CATO2DL/short-shot-director/releases/download/v1.3.0/short-shot-director-v1.3.0.zip)
-- [发布页与 SHA-256 校验文件](https://github.com/CATO2DL/short-shot-director/releases/tag/v1.3.0)
+- [v1.4.0 安装包](https://github.com/CATO2DL/short-shot-director/releases/download/v1.4.0/short-shot-director-v1.4.0.zip)
+- [发布页与 SHA-256 校验文件](https://github.com/CATO2DL/short-shot-director/releases/tag/v1.4.0)
 
 ZIP 内有顶层 `short-shot-director/` 目录。完整保留其中的 `SKILL.md`、`references/`、`templates/` 等文件；不要只复制入口文件。它是独立 Agent Skill，没有可执行安装程序，不需要 API 密钥或视频生成服务才能使用。
 
@@ -18,7 +18,7 @@ ZIP 内有顶层 `short-shot-director/` 目录。完整保留其中的 `SKILL.md
 
 ```sh
 mkdir -p "$HOME/.agents/skills"
-git clone --branch v1.3.0 --depth 1 https://github.com/CATO2DL/short-shot-director.git "$HOME/.agents/skills/short-shot-director"
+git clone --branch v1.4.0 --depth 1 https://github.com/CATO2DL/short-shot-director.git "$HOME/.agents/skills/short-shot-director"
 ```
 
 以上命令要求目标目录尚不存在；已有同名技能时先比较版本，避免覆盖自己的修改。使用 ZIP 时先在下载目录解压，再将文件夹移入目标目录，保持 `short-shot-director/SKILL.md` 只有一层技能目录。
@@ -50,7 +50,7 @@ git clone --branch v1.3.0 --depth 1 https://github.com/CATO2DL/short-shot-direct
 2. 分别询问图片模型与视频模型，每轮最多两个问题，已有答案不再重复问。
 3. 每组先生成主参考，再派生该组其余视角，记录每张图片实际模型。
 4. 展示真实图片与组号、视角号，等待你选定候选组和首帧。
-5. 创建只含本镜头必要图片与完整视频提示词的文件夹和 ZIP；需要复用图片提示词时才附上。
+5. 创建一份 shots.md，按「镜头 1、镜头 2……」排列，每个镜头依次展示建议时长、必要视角图片和完整视频提示词。候选组不会自动变成多个镜头。
 
 图片模型和视频模型不会混为一谈；工具未披露模型名时如实记录。没有可用图片工具时只能交付待生成计划，不能假装生成或选图完成。目标视频能力未核实时，包会标为未适配草案。交付素材包不会自动调用视频生成接口。
 
@@ -75,17 +75,25 @@ git clone --branch v1.3.0 --depth 1 https://github.com/CATO2DL/short-shot-direct
 
 ## 交付内容
 
-默认素材包只保留必要镜头图片和可直接使用的提示词，最小结构为：
+默认只交付一份 Markdown 正文，按这个顺序阅读：
 
 ```text
-S01-shot/
-  start.jpg
-  video.txt
+镜头 1｜云隙见殿
+建议时长：5 秒
+[直接展示首帧／必要视角图片]
+视频提示词：[完整可复制内容]
+
+镜头 2｜侧向窗光
+建议时长：4 秒
+[直接展示首帧／必要视角图片]
+视频提示词：[完整可复制内容]
 ```
 
-需要且工具支持时才加入尾帧或必要参考图；只有图片提示词仍需复用时才加 image-prompts.txt。无用角度、候选图、README、manifest、来源说明、选择记录、日志、旧版本和完整镜头文档都不放进去。模型和输入角色等执行必要信息用几行写在 video.txt 中，ZIP 内容与文件夹一致。
+以上是排版示意，不是已经生成的媒体。只有一个镜头就只写镜头 1；多个已指定镜头放在同一份文档。每个镜头可贴一张或几张必要图片，不保留无用视角。需要图片提示词时也放在该镜头下，不另建文本文件。
 
-用户只要镜头方案或明确要求完整设计文档时，仍可按 11 节镜头模板交付 Markdown。下方技能源码中的 README、指南与模板用于安装和指导技能，与生成的镜头素材包分开。
+下载内容为 shots.md 加其实际引用的 images/ 图片附件，用相对路径嵌入以便移动后仍可显示；可合打一个 ZIP。主交付与阅读入口是 Markdown，图片附件仅用于显示。没有清单、日志、来源记录、README 或独立视频提示词文件。
+
+仅在明确要求详细设计方案时才额外使用 11 节模板。技能源码自己的 README、指南与模板仍保留。详见 [最终文档模板](templates/shots.md)。
 
 未知平台时给工具中立版本；确认功能后才输出该平台相应模式的执行说明。参数、焦段、色值与比例是视觉设计建议，不是模型的精度保证。收到风格提示词时先询问是否生成候选；只有用户选择生成，才使用实际可用且已授权的工具。明确只要提示词时直接交付方案。
 
@@ -109,6 +117,7 @@ short-shot-director/
     user-images.md
   templates/
     shot.md
+    shots.md
   examples/
     01-megastructure-tilt-up.md
     02-cloud-palace-tracking.md
@@ -127,7 +136,7 @@ short-shot-director/
 | [单人缓慢转头](examples/03-character-turn.md) | 固定机位 | 选定主参考后，按需要派生同身份侧面 |
 | [产品小幅环绕](examples/04-product-orbit.md) | 正面转向前侧面 | 评估新可见侧面；不自动索取完整背面 |
 
-新增 [两组、每组三视角的交互示例](examples/05-candidate-to-handoff.md)，说明模型询问、等待选择与素材包交付。详见 [候选流程](references/candidate-selection.md) 和 [文件夹规范](references/handoff-package.md)。
+新增 [两组、每组三视角的交互示例](examples/05-candidate-to-handoff.md)，说明模型询问、等待选择与素材包交付。详见 [候选流程](references/candidate-selection.md) 和 [Markdown 交付规范](references/handoff-package.md)。
 
 另见 [自带图片流程](references/user-images.md) 和 [单图、多图、混合补图示例](examples/06-user-provided-images.md)。
 
