@@ -1,4 +1,4 @@
 interface:
   display_name: "短镜头导演"
-  short_description: "按组生成多视角候选图供挑选，再整理图片与视频提示词交付包"
-  default_prompt: "使用 $short-shot-director，根据我的风格提示词询问候选组数、每组视角和图片与视频模型，生成图片供我选择后整理视频素材包。"
+  short_description: "支持自带图片或生成多视角候选，整理图片与视频提示词交付包"
+  default_prompt: "使用 $short-shot-director，使用我带来的图片，或根据风格提示词生成候选供我选择，再按目标视频模型整理素材包。"
