@@ -7,8 +7,8 @@
 ## 下载与安装
 
 - [GitHub 源码](https://github.com/CATO2DL/short-shot-director)
-- [v1.4.0 安装包](https://github.com/CATO2DL/short-shot-director/releases/download/v1.4.0/short-shot-director-v1.4.0.zip)
-- [发布页与 SHA-256 校验文件](https://github.com/CATO2DL/short-shot-director/releases/tag/v1.4.0)
+- [v1.5.0 安装包](https://github.com/CATO2DL/short-shot-director/releases/download/v1.5.0/short-shot-director-v1.5.0.zip)
+- [发布页与 SHA-256 校验文件](https://github.com/CATO2DL/short-shot-director/releases/tag/v1.5.0)
 
 ZIP 内有顶层 `short-shot-director/` 目录。完整保留其中的 `SKILL.md`、`references/`、`templates/` 等文件；不要只复制入口文件。它是独立 Agent Skill，没有可执行安装程序，不需要 API 密钥或视频生成服务才能使用。
 
@@ -18,7 +18,7 @@ ZIP 内有顶层 `short-shot-director/` 目录。完整保留其中的 `SKILL.md
 
 ```sh
 mkdir -p "$HOME/.agents/skills"
-git clone --branch v1.4.0 --depth 1 https://github.com/CATO2DL/short-shot-director.git "$HOME/.agents/skills/short-shot-director"
+git clone --branch v1.5.0 --depth 1 https://github.com/CATO2DL/short-shot-director.git "$HOME/.agents/skills/short-shot-director"
 ```
 
 以上命令要求目标目录尚不存在；已有同名技能时先比较版本，避免覆盖自己的修改。使用 ZIP 时先在下载目录解压，再将文件夹移入目标目录，保持 `short-shot-director/SKILL.md` 只有一层技能目录。
@@ -91,7 +91,7 @@ git clone --branch v1.4.0 --depth 1 https://github.com/CATO2DL/short-shot-direct
 
 以上是排版示意，不是已经生成的媒体。只有一个镜头就只写镜头 1；多个已指定镜头放在同一份文档。每个镜头可贴一张或几张必要图片，不保留无用视角。需要图片提示词时也放在该镜头下，不另建文本文件。
 
-下载内容为 shots.md 加其实际引用的 images/ 图片附件，用相对路径嵌入以便移动后仍可显示；可合打一个 ZIP。主交付与阅读入口是 Markdown，图片附件仅用于显示。没有清单、日志、来源记录、README 或独立视频提示词文件。
+下载内容为 shots.md 加其实际引用的 images/ 图片附件，用相对路径嵌入以便移动后仍可显示；默认不压缩，需要整体下载时才生成一个 ZIP。主交付与阅读入口是 Markdown，图片附件仅用于显示。没有清单、日志、来源记录、README 或独立视频提示词文件。
 
 仅在明确要求详细设计方案时才额外使用 11 节模板。技能源码自己的 README、指南与模板仍保留。详见 [最终文档模板](templates/shots.md)。
 
@@ -99,48 +99,21 @@ git clone --branch v1.4.0 --depth 1 https://github.com/CATO2DL/short-shot-direct
 
 提供 Visora 文件时另建镜头文档，保留原 `design-spec.md`。这个技能也能独立使用，不依赖 Visora 的安装或服务。
 
-## 文件导航
+## 轻量运行
 
-```text
-short-shot-director/
-  SKILL.md
-  README.md
-  LICENSE
-  agents/openai.yaml
-  references/
-    camera-movement.md
-    reference-planning.md
-    prompt-writing.md
-    review-and-repair.md
-    candidate-selection.md
-    handoff-package.md
-    user-images.md
-  templates/
-    shot.md
-    shots.md
-  examples/
-    01-megastructure-tilt-up.md
-    02-cloud-palace-tracking.md
-    03-character-turn.md
-    04-product-orbit.md
-    05-candidate-to-handoff.md
-    06-user-provided-images.md
-```
+直接写最终 shots.md，不先生成详细设计稿、日志、清单、备份、独立提示词文件或对比拼图。只在确有必要时读取对应指南，不默认加载全部示例或 11 节详细模板。用户指定的候选数量仍会遵守，不擅自少生成。
 
-从 [技能入口](SKILL.md) 或 [镜头模板](templates/shot.md) 开始。四个完整示例：
+本轮候选和工具必需的中间图片放入独立临时目录。选定图片已转存、文档引用已检查、工具执行完毕后，删除本轮不再需要的未选候选、失败图、重复副本和临时文件。用户原图、最终引用图片以及明确要求保留的候选不会删除。不会扫描其他目录或清理共享缓存。
 
-| 示例 | 主运动 | 素材判断 |
-| --- | --- | --- |
-| [巨墙下的小人物](examples/01-megastructure-tilt-up.md) | 固定位置向上摇 | 小背影不需脸部多视图；尾构图可选 |
-| [云海宫殿](examples/02-cloud-palace-tracking.md) | 缓慢向右横移 | 短距离未绕过边缘，不默认补背面 |
-| [单人缓慢转头](examples/03-character-turn.md) | 固定机位 | 选定主参考后，按需要派生同身份侧面 |
-| [产品小幅环绕](examples/04-product-orbit.md) | 正面转向前侧面 | 评估新可见侧面；不自动索取完整背面 |
+## 按需参考
 
-新增 [两组、每组三视角的交互示例](examples/05-candidate-to-handoff.md)，说明模型询问、等待选择与素材包交付。详见 [候选流程](references/candidate-selection.md) 和 [Markdown 交付规范](references/handoff-package.md)。
+- [入口](SKILL.md) 与 [最终文档模板](templates/shots.md)
+- [候选选图](references/candidate-selection.md)、[自带图片](references/user-images.md)、[交付与清理](references/handoff-package.md)
+- [运镜](references/camera-movement.md)、[素材规划](references/reference-planning.md)、[提示词](references/prompt-writing.md)、[局部修复](references/review-and-repair.md)
+- 仅需详细方案时使用 [11 节模板](templates/shot.md)
+- 示例：[巨墙](examples/01-megastructure-tilt-up.md)、[云海宫殿](examples/02-cloud-palace-tracking.md)、[人物转头](examples/03-character-turn.md)、[产品环绕](examples/04-product-orbit.md)、[候选交互](examples/05-candidate-to-handoff.md)、[自带图交互](examples/06-user-provided-images.md)
 
-另见 [自带图片流程](references/user-images.md) 和 [单图、多图、混合补图示例](examples/06-user-provided-images.md)。
-
-四个镜头示例均为已填写的制作方案，图片和视频均待生成，视觉效果未验证。素材表中的空路径表示实际文件尚不存在。验收清单是未来生成后的检查条件，不是通过记录。
+示例均为方案说明，无实际生成媒体，未声称视觉验收通过。源码文档按需加载，不复制到最终镜头交付包。
 
 ## 许可证
 
