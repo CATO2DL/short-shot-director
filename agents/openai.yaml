@@ -1,4 +1,4 @@
 interface:
   display_name: "短镜头导演"
-  short_description: "设计单个 AI 短镜头的构图、运镜、按需素材及图片与视频提示词"
-  default_prompt: "使用 $short-shot-director，把我的想法设计成一个连续短镜头，交付完整镜头文件、按需素材表和可直接使用的提示词。"
+  short_description: "按组生成多视角候选图供挑选，再整理图片与视频提示词交付包"
+  default_prompt: "使用 $short-shot-director，根据我的风格提示词询问候选组数、每组视角和图片与视频模型，生成图片供我选择后整理视频素材包。"

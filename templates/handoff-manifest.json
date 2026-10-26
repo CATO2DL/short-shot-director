@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "status": "draft",
+  "shot_id": null,
+  "selection": {
+    "group_id": null,
+    "start_frame_id": null,
+    "user_evidence": null,
+    "groups_requested": null,
+    "views_per_group": null
+  },
+  "image_model": {
+    "requested": null,
+    "tool": null,
+    "actual": null,
+    "verification": "unverified"
+  },
+  "video_model": {
+    "target": null,
+    "actual": null,
+    "capability_source": null,
+    "verification": "unverified"
+  },
+  "images": [],
+  "video_input": {
+    "mode": "unverified",
+    "asset_ids": []
+  },
+  "files": {
+    "shot": null,
+    "original_prompt": null,
+    "video_prompt": null
+  },
+  "video_status": "not_generated",
+  "unresolved": []
+}
